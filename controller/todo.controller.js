@@ -1,11 +1,16 @@
 import { Todo } from "../models/todo.model.js";
 import { User } from "../models/user.model.js";
 
+//when we are creating to todo it should added in the user todo list
+
 export const createTodo = async (req, res) => {
     try {
         const { title, description } = req.body;
-        const todo = await Todo.create({ title, description });
-        return res.status(201).json({ todo });
+        const userId = req.user._id;
+        const todo = await Todo.create({ title, description, userId });
+        // add todo in user todo list complete todo should be added in user todo list
+        const user = await User.findByIdAndUpdate(userId, { $push: { todos: todo } }, { new: true });
+        return res.status(201).json({ todo, message: "Todo created successfully" });
     } catch (error) {
         return res.status(500).json({ error: error.message });
     }

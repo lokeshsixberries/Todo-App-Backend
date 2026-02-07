@@ -33,8 +33,8 @@ export const loginUser = async (req, res) => {
             return res.status(401).json({ error: "Invalid credentials" });
         }
         const token = JWT.sign({ id: user._id }, env.JWT_SECRET, { expiresIn: "7d" });
-        res.cookie("token", token, { httpOnly: true, secure: true, sameSite: "strict", maxAge: 604800000 });
-        res.status(200).json({ user, token, message: "User logged in successfully" });
+        res.cookie("token", `Bearer ${token}`, { httpOnly: true, secure: true, sameSite: "strict", maxAge: 604800000 });
+        res.status(200).json({ user, token: `Bearer ${token}`, message: "User logged in successfully" });
     } catch (error) {
         res.status(500).json({ error: error.message });
     }

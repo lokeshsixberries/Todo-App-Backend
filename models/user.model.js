@@ -10,7 +10,6 @@ const UserSchema = new mongoose.Schema({
         type: String,
         required: true,
         trim: true,
-        unique: true,
         lowercase: true,
         validate: {
             validator: function (v) {
@@ -26,8 +25,8 @@ const UserSchema = new mongoose.Schema({
     },
     todos: [
         {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "Todo"
+            type: Object,
+            default: []
         }
     ],
     isVerified: {
