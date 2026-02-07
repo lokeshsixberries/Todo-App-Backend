@@ -41,6 +41,11 @@ const UserSchema = new mongoose.Schema({
     emailVerifyTokenExpiry: {
         type: Date,
         select: false
+    },
+    role: {
+        type: String,
+        enum: ["user", "admin"],
+        default: "user"
     }
 }, {
     timestamps: true
